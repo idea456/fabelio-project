@@ -1,3 +1,7 @@
+/**
+ * @author Adrienne Rio Wongso Atmojo
+ */
+
 import React from "react";
 import './App.css';
 import axios from 'axios';
@@ -33,9 +37,9 @@ class App extends React.Component {
     const options = {
       params: this.state.currentProduct
     };
-
+    // set up the database and load the CSV data into the database
     await axios.get('/api/v1/load-data', options);
-
+    // get the current ranking for the current similar product
     await axios.get('/api/v1/get-ranking').then(res => this.setState({ ranking: res.data.ranking - 1 }));
     // get the next similar product from the database
     await axios.get('/api/v1/next-product', options).then(res => {

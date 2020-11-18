@@ -1,3 +1,7 @@
+/**
+ * @author Adrienne Rio Wongso Atmojo
+ */
+
 import React from "react";
 import Card from "@material-ui/core/Card";
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -30,9 +34,10 @@ export default function ProductCard(props) {
         "blue jay": "#0088ce",
         "brown vienna": "#6a382d"
     }
+
+    // get the list of keys from the colour dictionary
     const colourNames = Object.keys(colours);
     
-
 
     return (
         <Badge color="error" classes={{ badge: classes.badge }} badgeContent={props.ranking} showZero={props.current}>

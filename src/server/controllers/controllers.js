@@ -1,3 +1,10 @@
+/**
+ * @author Adrienne Rio Wongso Atmojo
+ * 
+ * This section contains all the controllers and some utility functions for the API requests
+ */
+
+
 const firebase = require('firebase');
 const parse = require('csv-parse');
 const fs = require('fs');
@@ -19,11 +26,17 @@ const app = firebase.apps.length ? firebase.app() : firebase.initializeApp(fireb
 const db = firebase.firestore();
 
 /**
- * Use a scoring system to determine the similarity of products. The scoring system is determined by the priorities of the fields.
- * I chose the dimensions of the product to be the highest priority to check first because
+ * Function that calculates the rank of similarity between the current product and next product.
+ * This uses a scoring system to determine the similarity of products. 
+ * The scoring system is determined by the priorities of the fields.
+ * The highest prioritized field is the dimension of the product, then followed by the colours and material.
+ * Price is only compared when two products have the same score, which the product with the lower price is ranked better.
+ * The product with the lowest rank is the product which has the highest similarity score.
  * 
- * @param currentProduct
- * @param nextProduct
+ * 
+ * @param currentProduct the current product to compare with
+ * @param nextProduct the other product to compare with
+ * @returns an integer score determining the similarity score of that next product
  * 
  */
 const calculateRank = (currentProduct, nextProduct) => {
@@ -50,6 +63,16 @@ const updateSeenProducts = async () => {
     });
 }
 
+
+/**
+ * Function loads the CSV using node file stream and parses it into a dictionary.
+ * The parsed data is then individually added into the firestore database.
+ * 
+ * 
+ * @param req the request from the client, which are details of the current product being compared
+ * @param res he response from the server, which is just a message that indicates the transfer was successful
+ * @param next passes control to the next matching route
+ */
 const loadData = (req, res, next) => {
     const parser = parse({
         delimiter: ',',
@@ -107,6 +130,7 @@ const loadData = (req, res, next) => {
 
     fs.createReadStream(__dirname + '/intern-test-data.csv').pipe(parser);
 
+    // set the parameter of the ranking to 1
     db.collection("parameters").get().then(snapshot => {
         if (snapshot.size <= 0) {
             db.collection("parameters").doc("ranking").set({
@@ -120,6 +144,14 @@ const loadData = (req, res, next) => {
     });
 }
 
+/**
+ * Function that gets the current product ranking from firestore database
+ * 
+ * 
+ * @param req the request from the client
+ * @param res he response from the server, which is just a message that indicates if the product ranking was received successfully
+ * @param next passes control to the next matching route
+ */
 const getRanking = (req, res, next) => {
     db.collection("parameters").doc("ranking").get().then(doc => { 
         let rank = doc.data()["ranking"];
@@ -132,6 +164,14 @@ const getRanking = (req, res, next) => {
     });
 }
 
+
+/**
+ * Function that retrieves the next product with the highest similarity
+ * 
+ * @param req the request from the client, which are details of the current product being compared
+ * @param res he response from the server, which contains the next product object
+ * @param next passes control to the next matching route
+ */
 const nextProduct = (req, res, next) => {
     let nextProduct, nextProductID;
     let currentProduct = req.query;
@@ -180,9 +220,6 @@ const nextProduct = (req, res, next) => {
     });
 }
     
-
-    
-
 
 module.exports.loadData = loadData;
 module.exports.nextProduct = nextProduct;
