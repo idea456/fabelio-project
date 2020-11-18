@@ -1,6 +1,6 @@
 # Fabelio Internship Project
 
-This project was created as part of my internship assessment with Fabelio. The app receives a list of product through a CSV file, establishes a database and user interface to view products that are similar to the product being compared with. \
+This project was created as part of my internship assessment with Fabelio. The app receives a list of product through a CSV file, establishes a database and user interface to view products that are similar to the product being compared with. 
 
 The live link to the project: https://fabelio-project.herokuapp.com
 
