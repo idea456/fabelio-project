@@ -17,6 +17,8 @@ After setting up the work environment for the server and client (setting up a ba
 
 ![Screenshot 2020-11-19 at 5 52 48 AM](https://user-images.githubusercontent.com/25546711/99593279-636dcd00-2a2c-11eb-82a3-c2c8c8120347.png)
 
+The colours are stored as dictionaries since we need fast access and checking of these colours to compare them with the original product's colours. Dimensions are also stored as an array to simplify checking. The rest are stored as integers or strings. The `seen` field is used to indicate whether the product has been seen by the user or not. The `sold` field is used to distinguish the items that are already sold or not.
+
 ### The scoring system
 
 After the database was established, I developed a way to distinguish different products on their similarity based on the following rules:
