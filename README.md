@@ -4,6 +4,15 @@ This project was created as part of my internship assessment with Fabelio. The a
 
 The live link to the project: https://fabelio-project.herokuapp.com
 
+To run the project, firstly install the dependencies:
+```
+npm install
+```
+Then, run the project with the following command:
+```
+npm run dev
+```
+
 ## The process
 
 ### Tech stack used
