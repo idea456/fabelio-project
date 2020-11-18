@@ -45,4 +45,4 @@ After the API was finished with the appropriate functions, I created the front-e
 The next product always changes only when the user refreshes/revisits the page.
 
 ### Final remarks
-Overall, this was a quite a fun project to do, kinda similar to a small hackathon 😊, and it really helped me to refresh my back-end concepts since that is where I lack practice in.
+Overall, this was a quite a fun project to do, kinda similar to a small hackathon 😊. It really helped me to refresh my back-end concepts since that is where I lack practice in, and also strengthen my back-end skills especially creating APIs and establishing connection with a database such as Firestore.
