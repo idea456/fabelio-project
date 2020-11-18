@@ -7,7 +7,10 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
+    "axios": "^0.21.0",
+    "concurrently": "^5.3.0",
     "helmet": "^4.2.0",
+    "nodemon": "^2.0.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
@@ -18,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "cd src && cd server && nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run server\""
   },
   "eslintConfig": {
     "extends": [
@@ -37,5 +42,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
