@@ -106,9 +106,29 @@ const loadData = (req, res, next) => {
     })
 
     fs.createReadStream(__dirname + '/intern-test-data.csv').pipe(parser);
+
+    db.collection("parameters").get().then(snapshot => {
+        if (snapshot.size <= 0) {
+            db.collection("parameters").doc("ranking").set({
+                ranking: 1
+            })
+        }
+    });
    
     res.status(200).json({
         body: 'Successfully added csv data to firestore!'
+    });
+}
+
+const getRanking = (req, res, next) => {
+    db.collection("parameters").doc("ranking").get().then(doc => { 
+        let rank = doc.data()["ranking"];
+        console.log("rank", rank);
+
+        res.status(200).json({
+            ranking: rank,
+            body: 'Successfully retrieved product ranking!'
+        });
     });
 }
 
@@ -127,6 +147,7 @@ const nextProduct = (req, res, next) => {
             nextProductID = snapshot.docs[0].id;
             nextProduct = snapshot.docs[0].data();
             updateSeenProducts();
+            db.collection("parameters").doc("ranking").update({ ranking: 1 });
         } else {
             let firstProduct = snapshot.docs[0].data();
             let secondProduct = snapshot.docs[1].data();
@@ -148,6 +169,7 @@ const nextProduct = (req, res, next) => {
             db.collection("products").doc(nextProductID).update({ seen: true });
         }
         
+        db.collection("parameters").doc("ranking").update({ ranking: firebase.firestore.FieldValue.increment(1) });
 
         res.status(200).json({
             // Order the documents by their rank in ascending order
@@ -164,3 +186,4 @@ const nextProduct = (req, res, next) => {
 
 module.exports.loadData = loadData;
 module.exports.nextProduct = nextProduct;
+module.exports.getRanking = getRanking;

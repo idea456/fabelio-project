@@ -1,6 +1,9 @@
 import React from "react";
 import './App.css';
 import axios from 'axios';
+import Helmet from "react-helmet";
+import ProductCard from "./components/ProductCard";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class App extends React.Component {
   constructor() {
@@ -19,7 +22,9 @@ class App extends React.Component {
         material: "solid wood",
         image: "https://fabelio.com/media/catalog/product/w/i/wina_2_seater_sofa__custard__1_1.jpg"
       },
-      nextProduct: {}
+      nextProduct: {},
+      ranking: 0,
+      loading: true
     }
   }
   
@@ -30,17 +35,26 @@ class App extends React.Component {
     };
 
     await axios.get('/api/v1/load-data', options);
+
+    await axios.get('/api/v1/get-ranking').then(res => this.setState({ ranking: res.data.ranking }));
     // get the next similar product from the database
-    await axios.get('/api/v1/next-product', options).then(res => this.setState({ nextProduct: res.data.product }));
-    console.log(this.state.nextProduct);
+    await axios.get('/api/v1/next-product', options).then(res => {
+      this.setState({ loading: false, nextProduct: res.data.product })
+    });
+    
   }
 
   render() {
-    const { name, image, colours, dimension, price, material, sold } = this.state.nextProduct;
     return (
       <div className="App">
-        <h1>{name}</h1>
-      </div>);
+        <Helmet>
+          <title>Fabelio Project</title>
+          <style>{"body {background-color: #f7d300}"}</style>
+        </Helmet>
+        { this.state.loading && (<CircularProgress />) }
+        { !this.state.loading && (<ProductCard ranking={this.state.ranking} product={this.state.nextProduct} />) }
+      </div>
+    );
   }
 }
 
