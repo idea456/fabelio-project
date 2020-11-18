@@ -22,7 +22,7 @@ npm run dev
 
 ### Setting up the data and database
 
-After setting up the work environment for the server and client (setting up a basic local server and API functions), the first thing I had to was to parse the CSV file into an appropriate format, so that it can be exported into the Firestore database with proper data types. After some data formatting and cleaning, I was able to establish a database with the exported CSV file. The following screenshot demonstrates a part of the Firestore document collection from the CSV file:
+After setting up the work environment for the server and client (setting up a basic local server and API functions), the first thing I had to do was to parse the CSV file into an appropriate format, so that it can be exported into the Firestore database with proper data types. After some data formatting and cleaning, I was able to establish a database with the exported CSV file. The following screenshot demonstrates a part of the Firestore document collection from the CSV file:
 
 ![Screenshot 2020-11-19 at 5 52 48 AM](https://user-images.githubusercontent.com/25546711/99593279-636dcd00-2a2c-11eb-82a3-c2c8c8120347.png)
 
