@@ -35,8 +35,8 @@ export default function ProductCard(props) {
 
 
     return (
-        <Badge color="error" classes={{ badge: classes.badge }} badgeContent={props.ranking - 1} >
-            <Card style={{borderRadius: 10, width: "28vw"}}>
+        <Badge color="error" classes={{ badge: classes.badge }} badgeContent={props.ranking} showZero={props.current}>
+            <Card style={{borderRadius: 10, width: "28vw", display: "flex", justifyContent: "flex-end", flexDirection: "column" }}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
@@ -63,6 +63,14 @@ export default function ProductCard(props) {
                     <Typography gutterBottom variant="h5" component="h5" style={{fontSize: "1.2vw", color: "grey"}}>
                     <strong>{`Made with ${material}`}</strong>
                     </Typography>
+
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                    {["Length", "Width", "Height"].map((d,i) => {
+                        return (
+                            <h2 style={{marginTop: 20, marginBottom: 30}}>{`${d}: ${dimension[i]}`}</h2>
+                        )
+                    })}
+                    </div>
                     <Typography variant="h2" component="h1" style={{fontSize: "2.5vw"}}>
                         <strong>{`Rp ${price}.000`}</strong>
                     </Typography>

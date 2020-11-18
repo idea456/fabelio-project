@@ -18,9 +18,9 @@ class App extends React.Component {
         name: "Sofa 2 dudukan Vienna",
         price: 3899000,
         dimension: [162, 95, 86],
-        colours: ["custard vienna", "graphite vienna", "ruby vienna"],
+        colours: { "custard vienna" : 1, "graphite vienna": 1, "ruby vienna": 1},
         material: "solid wood",
-        image: "https://fabelio.com/media/catalog/product/w/i/wina_2_seater_sofa__custard__1_1.jpg"
+        image: "https://fabelio.com/media/catalog/product/w/i/wina_2_seater_sofa__custard__1_1.jpg",
       },
       nextProduct: {},
       ranking: 0,
@@ -36,7 +36,7 @@ class App extends React.Component {
 
     await axios.get('/api/v1/load-data', options);
 
-    await axios.get('/api/v1/get-ranking').then(res => this.setState({ ranking: res.data.ranking }));
+    await axios.get('/api/v1/get-ranking').then(res => this.setState({ ranking: res.data.ranking - 1 }));
     // get the next similar product from the database
     await axios.get('/api/v1/next-product', options).then(res => {
       this.setState({ loading: false, nextProduct: res.data.product })
@@ -52,7 +52,19 @@ class App extends React.Component {
           <style>{"body {background-color: #f7d300}"}</style>
         </Helmet>
         { this.state.loading && (<CircularProgress />) }
-        { !this.state.loading && (<ProductCard ranking={this.state.ranking} product={this.state.nextProduct} />) }
+        { !this.state.loading && (
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-around", width: "100vw", marginBottom: 20, color: "white" }}>
+              <h1>Current product</h1>
+              <h1>Similar product</h1>
+          </div>
+          <div style={{display: "flex", justifyContent: "space-around", width: "100vw"}}>
+            <ProductCard current={true } product={this.state.currentProduct}/>
+            <ProductCard current={false } ranking={this.state.ranking} product={this.state.nextProduct} />
+            </div>
+            </div>
+            )
+          }
       </div>
     );
   }
